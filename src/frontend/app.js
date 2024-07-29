@@ -18,6 +18,16 @@ export class App {
         const rootElm = document.getElementById(root);
         rootElm.innerHTML = '';
 
+        const goBackElm = document.createElement('button');
+        goBackElm.id = 'goBack';
+        goBackElm.innerText = 'Go Back';
+        rootElm.appendChild(goBackElm);
+        goBackElm.addEventListener('click', () => {
+            // clear local storage
+            window.localStorage.clear();
+            this.#events.publish('navigateTo', 'homeView');
+        });
+
         this.#mainViewElm = document.createElement('div');
         this.#mainViewElm.id = 'main-view';
 
