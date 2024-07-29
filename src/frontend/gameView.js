@@ -49,6 +49,7 @@ class GameInfo {
 
 class Timer {
     #events = null;
+
     constructor() {
         this.#events = Events.events();
     }

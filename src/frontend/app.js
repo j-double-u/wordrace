@@ -1,7 +1,7 @@
 import { Events } from "./events.js";
 import { GameView } from "./gameView.js";
 import { HomeView } from "./homeView.js";
-// import { ResultsView } from "./resultsView";
+import { ResultsView } from "./resultsView.js";
 
 export class App {
     #homeViewElm = null;
@@ -26,8 +26,8 @@ export class App {
         const homeView = new HomeView();
         this.#homeViewElm = homeView.render();
 
-        // const resultsView = new ResultsView();
-        // this.#resultsViewElm = resultsView.render();
+        const resultsView = new ResultsView();
+        this.#resultsViewElm = resultsView.render();
 
         this.#navigateTo('homeView');
         this.#events.subscribe('navigateTo', view => this.#navigateTo(view));
@@ -45,9 +45,9 @@ export class App {
             this.#mainViewElm.appendChild(this.#gameViewElm);
             window.location.hash = 'gameView';
         }
-        // else if (view === 'resultsView') {
-        //     this.#mainViewElm.appendChild(this.#resultsViewElm);
-        //     window.location.hash = 'resultsView';
-        // }
+        else if (view === 'resultsView') {
+            this.#mainViewElm.appendChild(this.#resultsViewElm);
+            window.location.hash = 'resultsView';
+        }
     }
 }
