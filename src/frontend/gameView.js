@@ -50,6 +50,7 @@ class GameInfo {
 class Timer {
     #events = null;
 
+
     constructor() {
         this.#events = Events.events();
     }
@@ -57,23 +58,21 @@ class Timer {
     render() {
         const timerElm = document.createElement('p');
         timerElm.id = 'timer';
-
         let curr = 60;
 
-        const updateTimer = setInterval(updateTimeRemaining, 1000);
-        function updateTimeRemaining() {
+        const updateTimer = setInterval(() => {
             timerElm.innerText = curr;
             curr--;
             if (curr === 0) {
                 clearInterval(updateTimer);
                 // no arg here, is this a problem?
                 this.#events.publish('timeout', 0);
-                
             }
-        }
+        }, 1000);
 
         return timerElm;
     }
+
 }
 
 class Word {
