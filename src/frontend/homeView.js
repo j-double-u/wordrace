@@ -1,6 +1,6 @@
 import { Events } from './events.js';
 
-export class homeView {
+export class HomeView {
     constructor() {}
 
     render() {
@@ -12,14 +12,14 @@ export class homeView {
 
         homeViewElm.appendChild(titleElm);
 
-        const playButton = new playButton();
+        const playButton = new PlayButton();
         homeViewElm.appendChild(playButton.render());
 
         return homeViewElm;
     }
 }
 
-class playButton {
+class PlayButton {
     #events = null;
     constructor() {
         this.#events = Events.events();
