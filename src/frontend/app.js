@@ -24,8 +24,10 @@ export class App {
         rootElm.appendChild(goBackElm);
         goBackElm.addEventListener('click', () => {
             // clear local storage
-            window.localStorage.clear();
-            this.#events.publish('navigateTo', 'homeView');
+            while (rootElm.firstElementChild) {
+                rootElm.firstElementChild.remove();
+            }
+            this.render(root);  
         });
 
         this.#mainViewElm = document.createElement('div');

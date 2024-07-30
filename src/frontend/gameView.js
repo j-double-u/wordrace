@@ -10,6 +10,7 @@ export class GameView {
 
         const titleElm = document.createElement('h1');
         titleElm.innerText = 'Game View';
+        titleElm.classList.add('header')
 
         const gameContainerElm = document.createElement('div');
         gameContainerElm.id = 'game-container';
@@ -67,6 +68,9 @@ class Timer {
                 clearInterval(updateTimer);
                 // no arg here, is this a problem?
                 this.#events.publish('timeout', 0);
+            }
+            else if (curr < 10) {
+                timerElm.classList.add('low-time');
             }
         }, 1000);
 
@@ -135,9 +139,10 @@ class DefinitionList {
 
     render() {
         const definitionListElm = document.createElement('div');
-        definitionListElm.id = 'definition-list';
+        definitionListElm.id = 'definition-list-element';
 
         this.#list = document.createElement('ul');
+        this.#list.id = 'definition-list'
         definitionListElm.appendChild(this.#list);
 
         this.#events.subscribe('word-generated', wordNum => {

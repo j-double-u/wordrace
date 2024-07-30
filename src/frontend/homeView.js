@@ -9,6 +9,7 @@ export class HomeView {
 
         const titleElm = document.createElement('h1');
         titleElm.innerText = 'Home View';
+        titleElm.classList.add('header')
 
         homeViewElm.appendChild(titleElm);
 

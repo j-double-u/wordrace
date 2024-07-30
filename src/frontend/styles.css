@@ -1,0 +1,180 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body * {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f0f8ff; /* Light background color */
+    line-height: 1.6;
+    text-align: center;
+    margin: 5px;
+}
+
+.header {
+    background-color: #4a90e2; /* Header background color */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#goBack {
+    background-color: #ff6347; /* Tomato color, adjust as needed */
+    color: white;
+    border: none;
+    border-radius: 12px; /* Rounded corners */
+    padding: 10px 20px; /* Top and bottom padding, left and right padding */
+    font-size: 16px;
+    font-family: 'Arial', sans-serif; /* Font style */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+#goBack:hover {
+    background-color: #ff4500; /* Darker shade on hover */
+}
+
+#goBack:active {
+    transform: scale(0.95); /* Slight shrink effect on click */
+}
+
+#play-button {
+    background-color: #4CAF50; /* Green background color */
+    color: white;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px 30px; /* Top and bottom padding, left and right padding */
+    font-size: 1.2rem;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    text-transform: uppercase; /* Uppercase text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+#play-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+#play-button:active {
+    transform: scale(0.95); /* Slight shrink effect on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+}
+
+#timer {
+    font-family: 'Arial', sans-serif; /* Clean and readable font */
+    font-size: 2rem; /* Larger font size for visibility */
+    font-weight: bold; /* Make the text bold */
+    color: #fff; /* White text color for contrast */
+    background-color: #ff5722; /* Vibrant background color */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    padding: 10px 20px; /* Space inside the element */
+    text-align: center; /* Center align the text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+    width: fit-content; /* Adjust width based on content */
+    margin: 10px auto; /* Center horizontally with margin */
+    position: relative; /* Position relative for potential absolute positioning of inner elements */
+}
+
+@keyframes blink {
+    0% { color: #ff5722; }
+    50% { color: #fff; }
+    100% { color: #ff5722; }
+}
+
+#timer.low-time {
+    animation: blink 1s step-start infinite; /* Blink animation for low time */
+    background-color: #d32f2f; /* Red background for urgency */
+}
+
+#word {
+    font-family: 'Arial', sans-serif; /* Clean and readable font */
+    font-size: 1.5rem; /* Larger font size for prominence */
+    font-weight: bold; /* Bold text for emphasis */
+    color: #3498db; /* Cool blue color for visibility */
+    letter-spacing: 1.5px; /* Spacing between letters for readability */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Shadow for a 3D effect */
+    background-color: #ecf0f1; /* Light background color */
+    border: 2px solid #3498db; /* Border matching the text color */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    padding: 10px 20px; /* Space inside the element */
+    margin: 10px; /* Space around the element */
+    display: inline-block; /* Adjust width based on content */
+    text-align: center; /* Center align the text */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
+}
+
+#definition-list-element {
+    width: 100%;
+    max-width: 1000px; /* Maximum width for responsiveness */
+    margin: 20px auto; /* Center the container horizontally */
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    border: 1px solid #ddd; /* Light border for definition */
+}
+
+#definition-list {
+    list-style: none; /* Remove default list styling */
+    padding: 0;
+}
+
+.definition {
+    background-color: #fff; /* White background for each choice */
+    border: 1px solid #ddd; /* Light border for each choice */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 15px; /* Padding inside each choice */
+    margin-bottom: 10px; /* Space between choices */
+    font-family: 'Arial', sans-serif; /* Readable font */
+    font-size: 0.75rem; /* Larger font size for visibility */
+    cursor: pointer; /* Pointer cursor to indicate it's clickable */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+
+.definition:hover {
+    background-color: #e0e0e0; /* Light grey background on hover */
+    transform: scale(1.02); /* Slightly enlarge on hover */
+}
+
+
+.definition.selected {
+    background-color: #4CAF50; /* Green background for selected choice */
+    color: white; /* White text color */
+    border-color: #4CAF50; /* Match border color with background */
+}
+
+#results-container {
+    width: 100%;
+    max-width: 800px; /* Maximum width for responsiveness */
+    margin: 20px auto; /* Center the container horizontally */
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    border: 1px solid #ddd; /* Light border for definition */
+}
+
+#results-table th {
+    background-color: #4CAF50; /* Green background for header */
+    color: white; /* White text color */
+    padding: 12px; /* Padding inside header cells */
+    text-align: left; /* Align text to the left */
+    font-weight: bold; /* Bold text for header */
+}
+
+#results-table td {
+    background-color: #fff; /* White background for body cells */
+    border-bottom: 1px solid #ddd; /* Light border for rows */
+    padding: 12px; /* Padding inside body cells */
+    text-align: left; /* Align text to the left */
+}
+
+
+
+

@@ -9,6 +9,8 @@ export class ResultsView {
 
         const titleElm = document.createElement('h1');
         titleElm.innerText = 'Results View';
+        titleElm.classList.add('header')
+
 
         const resultsContainerElm = document.createElement('div');
         resultsContainerElm.id = 'results-container';
