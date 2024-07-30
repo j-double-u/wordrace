@@ -32,6 +32,10 @@ class ResultsTable {
     }
 
     render() {
+        if (window.localStorage.getItem('score') === null) {
+            window.localStorage.setItem('score', 0);
+        }
+
         const resultsTable = document.createElement('table');
         resultsTable.id = 'results-table';
 
@@ -45,10 +49,13 @@ class ResultsTable {
         const yourScore = document.createElement('td');
         yourRow.appendChild(yourScore);
         resultsTable.appendChild(yourRow);
-
+        
         this.#events.subscribe('game-over', numCorrect => {
             yourScore.innerText = numCorrect;
+            window.localStorage.setItem('score', numCorrect);
         });
+
+        yourScore.innerText = window.localStorage.getItem('score');
 
         return resultsTable;
 
