@@ -53,9 +53,13 @@ export class LoginView {
                 if (!createProfile.ok) {
                     alert("New profile not created. Try again.");
                 }
-                this.#events.publish('navigateTo', 'homeView');
-                // give the username to the homeView 
-                // TODO:
+                else {
+                    this.#events.publish('navigateTo', 'homeView');
+                    // give the username to the homeView 
+                    // TODO:
+
+                }
+
 
 
 
