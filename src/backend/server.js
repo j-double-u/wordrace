@@ -8,7 +8,7 @@ async function basicServer(request, response) {
     const query = parsedUrl.query;
     const method = request.method;
 
-    if (method === 'POST' && pathname.startsWith('profile/createProfile')) {
+    if (method === 'POST' && pathname.startsWith('/profile/create')) {
         const createProfile = await crud.createProfile(query.username, query.password);
         if (createProfile === undefined) {
             response.writeHead(500, { "Content-Type": "text/plain" });
@@ -21,7 +21,7 @@ async function basicServer(request, response) {
             response.end();
         }
     }
-    else if (method === 'GET' && pathname.startsWith('profile/readProfile')) {
+    else if (method === 'GET' && pathname.startsWith('/profile/read')) {
         const readProfile = await crud.readProfile(query.username);
         if (readProfile === undefined) {
             response.writeHead(500, { "Content-Type": "text/plain" });
@@ -34,7 +34,7 @@ async function basicServer(request, response) {
             response.end();
         }
     }
-    else if (method === 'PUT' && pathname.startsWith('profile/updateProfile')) {
+    else if (method === 'PUT' && pathname.startsWith('/profile/update')) {
         const updateProfile = await crud.updateProfile(query.username, query.password);
         if (updateProfile === undefined) {
             response.writeHead(500, { "Content-Type": "text/plain" });
@@ -47,7 +47,7 @@ async function basicServer(request, response) {
             response.end();
         }
     }
-    else if (method === 'DELETE' && pathname.startsWith('profile/deleteProfile')) {
+    else if (method === 'DELETE' && pathname.startsWith('/profile/delete')) {
         const deleteProfile = await crud.deleteProfile(query.username);
         if (deleteProfile === undefined) {
             response.writeHead(500, { "Content-Type": "text/plain" });
