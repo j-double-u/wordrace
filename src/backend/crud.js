@@ -66,8 +66,8 @@ export async function readProfile(username) {
  * @async
  * @endpoints /profile/update
  * @method PUT
- * @description Asynchronously updates profile in database catching an error if 
- * key not found or unsuccessful.
+ * @description Asynchronously updates profile in database by changing password 
+ * catching an error if key not found or unsuccessful.
  * @requestBody {
  *  "username" - "Username for the profile" (string, required),
  *  "password" - "New password of the profile" (string, required)
@@ -106,10 +106,10 @@ export async function updateProfile(username, password) {
  *  "username" - "Username for the profile" (string, required),
  * }
  * @responseBody {
- *  "updateProfile" : {The update confirmation object}
+ *  "deleteProfile" : {The delete confirmation object}
  * }
  * @statusCodes 
- * 200 Successful: Profile successfully updated.
+ * 200 Successful: Profile successfully deleted.
  * 404 Not Found: Key not found.
  * 500 Internal Server Error: Unexpected error occurred on the server. 
  */
