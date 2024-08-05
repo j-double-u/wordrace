@@ -43,7 +43,7 @@ async function basicServer(request, response) {
         const updateProfile = await crud.updateProfile(query['username'], query['password']);
         if (updateProfile === undefined) {
             response.writeHead(500, { "Content-Type": "text/plain" });
-            response.write("Issue with reading profile.");
+            response.write("Issue with updating profile.");
             response.end();
         }
         else if (updateProfile === null) {
@@ -61,7 +61,7 @@ async function basicServer(request, response) {
         const deleteProfile = await crud.deleteProfile(query['username']);
         if (deleteProfile === undefined) {
             response.writeHead(500, { "Content-Type": "text/plain" });
-            response.write("Issue with reading profile.");
+            response.write("Issue with deleting profile.");
             response.end();
         }
         else if (deleteProfile === null) {

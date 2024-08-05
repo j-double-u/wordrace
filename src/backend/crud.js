@@ -3,7 +3,6 @@ import PouchDB from 'pouchdb';
 const database = new PouchDB('db');
 
 /**
- * @async
  * @endpoints /profile/create
  * @method POST
  * @description Asynchronously creates new profile in database catching an error if 
@@ -17,7 +16,11 @@ const database = new PouchDB('db');
  * }
  * @statusCodes 
  * 200 Created: Profile successfully created.
- * 500 Internal Server Error: Unexpected error occurred on the server. 
+ * 500 Internal Server Error: Unexpected error occurred on the server.
+ * @example 
+ * input: HTTP POST with path /profile/create?username=john&password=pswd 
+ * possible outputs: 500, "Issue with creating profile" or 200, {_id: "john", 
+ * password: "pswd", highScore: 0}
  */
 
 export async function createProfile(username, password) {
@@ -32,7 +35,6 @@ export async function createProfile(username, password) {
 }
 
 /**
- * @async
  * @endpoints /profile/read
  * @method GET
  * @description Asynchronously reads profile in database catching an error if 
@@ -47,6 +49,10 @@ export async function createProfile(username, password) {
  * 200 Successful: Profile successfully retrieved.
  * 404 Not Found: Key not found.
  * 500 Internal Server Error: Unexpected error occurred on the server. 
+ * @example 
+ * input: HTTP GET with path /profile/create?username=john 
+ * possible outputs: 500, "Issue with reading profile" or 200, {_id: "john", 
+ * password: "pswd", highScore: 0, _rev: "revA"} or 404, "Not found."
  */
 
 export async function readProfile(username) {
@@ -63,7 +69,6 @@ export async function readProfile(username) {
 }
 
 /**
- * @async
  * @endpoints /profile/update
  * @method PUT
  * @description Asynchronously updates profile in database by changing password 
@@ -79,6 +84,10 @@ export async function readProfile(username) {
  * 200 Successful: Profile successfully updated.
  * 404 Not Found: Key not found.
  * 500 Internal Server Error: Unexpected error occurred on the server. 
+ * @example 
+ * input: HTTP PUT with path /profile/update?username=john&password=newPswd 
+ * possible outputs: 500, "Issue with updating profile" or 200, {id: "john", 
+ * rev: "revB"} or 404, "Not found."
  */
 
 export async function updateProfile(username, password) {
@@ -97,7 +106,6 @@ export async function updateProfile(username, password) {
 }
 
 /**
- * @async
  * @endpoints /profile/delete
  * @method DELETE
  * @description Asynchronously deletes profile in database catching an error if 
@@ -111,7 +119,11 @@ export async function updateProfile(username, password) {
  * @statusCodes 
  * 200 Successful: Profile successfully deleted.
  * 404 Not Found: Key not found.
- * 500 Internal Server Error: Unexpected error occurred on the server. 
+ * 500 Internal Server Error: Unexpected error occurred on the server.
+ * @example 
+ * input: HTTP DELETE with path /profile/delete?username=john
+ * possible outputs: 500, "Issue with deleting profile" or 200, {id: "john", 
+ * rev: "revA"} or 404, "Not found." 
  */
 
 export async function deleteProfile(username) {
