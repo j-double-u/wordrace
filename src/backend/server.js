@@ -28,6 +28,11 @@ async function basicServer(request, response) {
             response.write("Issue with reading profile.");
             response.end();
         }
+        else if (readProfile === null) {
+            response.writeHead(404, { "Content-Type": "text/plain" });
+            response.write("Not found.");
+            response.end();
+        }
         else {
             response.writeHead(200, { 'Content-Type': 'application/json' });
             response.write(JSON.stringify(readProfile));
@@ -41,6 +46,11 @@ async function basicServer(request, response) {
             response.write("Issue with reading profile.");
             response.end();
         }
+        else if (updateProfile === null) {
+            response.writeHead(404, { "Content-Type": "text/plain" });
+            response.write("Not found.");
+            response.end();
+        }
         else {
             response.writeHead(200, { 'Content-Type': 'application/json' });
             response.write(JSON.stringify(updateProfile));
@@ -52,6 +62,11 @@ async function basicServer(request, response) {
         if (deleteProfile === undefined) {
             response.writeHead(500, { "Content-Type": "text/plain" });
             response.write("Issue with reading profile.");
+            response.end();
+        }
+        else if (deleteProfile === null) {
+            response.writeHead(404, { "Content-Type": "text/plain" });
+            response.write("Not found.");
             response.end();
         }
         else {

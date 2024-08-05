@@ -1,4 +1,5 @@
 import { Events } from './events.js';
+import * as crud from './crud.js';
 
 export class LoginView {
     #events = null;
@@ -43,12 +44,39 @@ export class LoginView {
         const loginButton = document.createElement('button');
         loginButton.id = 'login-button';
         loginButton.innerText = 'Login';
-        loginButton.addEventListener('click', () => {
+        loginButton.addEventListener('click', async () => {
+
+            const readProfile = await crud.readProfile(username.value);
             // if username new create username with password and navigate to home
+            if (readProfile.status === 404) {
+                const createProfile = await crud.createProfile(username.value, password.value);
+                if (!createProfile.ok) {
+                    alert("New profile not created. Try again.");
+                }
+                this.#events.publish('navigateTo', 'homeView');
+                // give the username to the homeView 
+                // TODO:
 
-            // if username not new and password incorrect alert
 
-            // if username not new and password correct navigate to home
+
+            }
+            else if (readProfile.status === 200) {
+                const profile = await readProfile.json();
+                // if username not new and password incorrect alert
+                if (password.value !== profile['password']) {
+                    alert("Incorrect password. Try again.");
+                }
+                // if username not new and password correct navigate to home
+                else {
+                    this.#events.publish('navigateTo', 'homeView');
+                    // give the username to the homeView
+                    // TODO:
+
+                }
+            }
+            else {
+                alert("Failed to read inputs. Try again.");
+            }
         });
         loginButtonElm.appendChild(loginButton);
         loginBlockElm.appendChild(loginButtonElm);

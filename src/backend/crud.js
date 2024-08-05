@@ -19,6 +19,9 @@ export async function readProfile(username) {
         return readProfile;
     }
     catch (err) {
+        if (err.name === 'not_found') {
+            return null;
+        }
         return undefined;
     }
 }
@@ -42,6 +45,7 @@ export async function deleteProfile(username) {
         return deleteProfile;
     }
     catch (err) {
+
         return undefined;
     }
 }
