@@ -1,12 +1,14 @@
 import { Events } from "./events.js";
 import { GameView } from "./gameView.js";
 import { HomeView } from "./homeView.js";
+import { loginView } from "./loginView.js";
 import { ResultsView } from "./resultsView.js";
 
 export class App {
     #homeViewElm = null;
     #gameViewElm = null;
     #resultsViewElm = null;
+    #loginViewElm = null;
     #mainViewElm = null;
     #events = null;
 
@@ -17,6 +19,14 @@ export class App {
     render(root){
         const rootElm = document.getElementById(root);
         rootElm.innerHTML = '';
+
+        const loginElm = document.createElement('button');
+        loginElm.id = 'login';
+        loginElm.innerText = 'Login';
+        rootElm.appendChild(loginElm);
+        loginElm.addEventListener('click', () => {
+            this.#navigateTo('loginView');
+        })
 
         const goBackElm = document.createElement('button');
         goBackElm.id = 'goBack';
@@ -41,6 +51,11 @@ export class App {
         const resultsView = new ResultsView();
         this.#resultsViewElm = resultsView.render();
 
+        const loginView = new loginView();
+        this.#loginViewElm = loginView.render();
+
+
+
         this.#navigateTo('homeView');
         this.#events.subscribe('navigateTo', view => this.#navigateTo(view));
     }
@@ -61,5 +76,10 @@ export class App {
             this.#mainViewElm.appendChild(this.#resultsViewElm);
             window.location.hash = 'resultsView';
         }
+        else if (view === 'loginView') {
+            this.#mainViewElm.appendChild(this.#loginViewElm);
+            window.location.hash = 'loginView';
+        }
+
     }
 }
