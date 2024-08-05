@@ -1,7 +1,7 @@
 import { Events } from "./events.js";
 import { GameView } from "./gameView.js";
 import { HomeView } from "./homeView.js";
-import { loginView } from "./loginView.js";
+import { LoginView } from "./loginView.js";
 import { ResultsView } from "./resultsView.js";
 
 export class App {
@@ -51,10 +51,8 @@ export class App {
         const resultsView = new ResultsView();
         this.#resultsViewElm = resultsView.render();
 
-        const loginView = new loginView();
+        const loginView = new LoginView();
         this.#loginViewElm = loginView.render();
-
-
 
         this.#navigateTo('homeView');
         this.#events.subscribe('navigateTo', view => this.#navigateTo(view));
