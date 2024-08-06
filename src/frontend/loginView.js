@@ -56,13 +56,9 @@ export class LoginView {
                 else {
                     this.#events.publish('navigateTo', 'homeView');
                     // give the username to the homeView 
-                    // TODO:
+                    this.#events.publish('displayPersonal', createProfile["username"])
 
                 }
-
-
-
-
             }
             else if (readProfile.status === 200) {
                 const profile = await readProfile.json();
@@ -74,8 +70,7 @@ export class LoginView {
                 else {
                     this.#events.publish('navigateTo', 'homeView');
                     // give the username to the homeView
-                    // TODO:
-
+                    this.#events.publish('displayPersonal', profile["username"]);
                 }
             }
             else {

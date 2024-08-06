@@ -1,7 +1,11 @@
 import { Events } from './events.js';
+import * as crud from './crud.js';
 
 export class HomeView {
-    constructor() {}
+    #events = null;
+    constructor() {
+        this.#events = Events.events();
+    }
 
     render() {
         const homeViewElm = document.createElement('div');
@@ -13,8 +17,23 @@ export class HomeView {
 
         homeViewElm.appendChild(titleElm);
 
+        const personalBlurb = document.createElement('div');
+        homeViewElm.appendChild(personalBlurb);
+
         const playButton = new PlayButton();
         homeViewElm.appendChild(playButton.render());
+
+        this.#events.subscribe('displayPersonal', async (username) => {
+            personalBlurb.innerHTML = "";
+            const readProfile = await crud.readProfile(username);
+            if (!readProfile.ok) {
+                personalBlurb.innerHTML = '<p>Sorry. Personalized homepage could not be made.</p>';
+            }
+            else {
+                const profile = await readProfile.json();
+                personalBlurb.innerHTML = `<p>Welcome ${profile['username']}! Your high score is ${profile['highScore']}.</p>`;
+            }
+        });
 
         return homeViewElm;
     }
