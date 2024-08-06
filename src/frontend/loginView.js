@@ -80,7 +80,6 @@ export class LoginView {
             password.value = "";
         });
         loginButtonElm.appendChild(loginButton);
-        loginBlockElm.appendChild(loginButtonElm);
 
         const resetButton = document.createElement('button');
         resetButton.id = 'reset-button';
@@ -94,10 +93,28 @@ export class LoginView {
             else if (updateProfile.status === 500) {
                 alert("Failed to update. Try again.");
             }
+            username.value = "";
+            password.value = "";
         });
+        loginButtonElm.appendChild(resetButton);
 
-        
+        const deleteButton = document.createElement('button');
+        deleteButton.id = 'delete-button';
+        deleteButton.innerText = 'Delete';
+        deleteButton.addEventListener('click', async () => {
+            const deleteProfile = await crud.deleteProfile(username.value);
+            if (deleteProfile.status === 404) {
+                alert("username does not exist.");
+            }
+            else if (deleteProfile.status === 500) {
+                alert("Failed to delete. Try again.");
+            }
+            username.value = "";
+            password.value = "";
+        });
+        loginButtonElm.appendChild(deleteButton);
 
+        loginBlockElm.appendChild(loginButtonElm);
 
         loginViewElm.appendChild(loginBlockElm);
 
