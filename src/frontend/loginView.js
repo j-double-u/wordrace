@@ -76,9 +76,28 @@ export class LoginView {
             else {
                 alert("Failed to read inputs. Try again.");
             }
+            username.value = "";
+            password.value = "";
         });
         loginButtonElm.appendChild(loginButton);
         loginBlockElm.appendChild(loginButtonElm);
+
+        const resetButton = document.createElement('button');
+        resetButton.id = 'reset-button';
+        resetButton.innerText = 'Reset';
+        resetButton.addEventListener('click', async () => {
+            // set username given to the password listed
+            const updateProfile = await crud.updateProfile(username.value, password.value);
+            if (updateProfile.status === 404) {
+                alert("username does not exist.");
+            }
+            else if (updateProfile.status === 500) {
+                alert("Failed to update. Try again.");
+            }
+        });
+
+        
+
 
         loginViewElm.appendChild(loginBlockElm);
 
