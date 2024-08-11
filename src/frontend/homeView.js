@@ -31,7 +31,7 @@ export class HomeView {
             }
             else {
                 const profile = await readProfile.json();
-                personalBlurb.innerHTML = `<p>Welcome ${profile['username']}! Your high score is ${profile['highScore']}.</p>`;
+                personalBlurb.innerHTML = `<p>Welcome ${profile['_id']}! Your high score is ${profile['highScore']}.</p>`;
             }
         });
 

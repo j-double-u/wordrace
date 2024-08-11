@@ -1,88 +1,63 @@
-import * as http from 'http';
-import * as url from 'url';
 import * as crud from './crud.js';
+import express from 'express';
+import logger from 'morgan';
+import cors from 'cors';
 
-async function basicServer(request, response) {
-    const parsedUrl = url.parse(request.url, true);
-    const pathname = parsedUrl.pathname;
-    const query = parsedUrl.query;
-    const method = request.method;
+const app = express();
+app.use(logger('dev'));
+app.use(cors());
 
-    if (method === 'POST' && pathname.startsWith('/profile/create')) {
-        const createProfile = await crud.createProfile(query['username'], query['password']);
-        if (createProfile === undefined) {
-            response.writeHead(500, { "Content-Type": "text/plain" });
-            response.write("Issue with creating profile.");
-            response.end();
-        }
-        else {
-            response.writeHead(200, { 'Content-Type': 'application/json' });
-            response.write(JSON.stringify(createProfile));
-            response.end();
-        }
-    }
-    else if (method === 'GET' && pathname.startsWith('/profile/read')) {
-        const readProfile = await crud.readProfile(query['username']);
-        if (readProfile === undefined) {
-            response.writeHead(500, { "Content-Type": "text/plain" });
-            response.write("Issue with reading profile.");
-            response.end();
-        }
-        else if (readProfile === null) {
-            response.writeHead(404, { "Content-Type": "text/plain" });
-            response.write("Not found.");
-            response.end();
-        }
-        else {
-            response.writeHead(200, { 'Content-Type': 'application/json' });
-            response.write(JSON.stringify(readProfile));
-            response.end();
-        }
-    }
-    else if (method === 'PUT' && pathname.startsWith('/profile/update')) {
-        const updateProfile = await crud.updateProfile(query['username'], query['password']);
-        if (updateProfile === undefined) {
-            response.writeHead(500, { "Content-Type": "text/plain" });
-            response.write("Issue with updating profile.");
-            response.end();
-        }
-        else if (updateProfile === null) {
-            response.writeHead(404, { "Content-Type": "text/plain" });
-            response.write("Not found.");
-            response.end();
-        }
-        else {
-            response.writeHead(200, { 'Content-Type': 'application/json' });
-            response.write(JSON.stringify(updateProfile));
-            response.end();
-        }
-    }
-    else if (method === 'DELETE' && pathname.startsWith('/profile/delete')) {
-        const deleteProfile = await crud.deleteProfile(query['username']);
-        if (deleteProfile === undefined) {
-            response.writeHead(500, { "Content-Type": "text/plain" });
-            response.write("Issue with deleting profile.");
-            response.end();
-        }
-        else if (deleteProfile === null) {
-            response.writeHead(404, { "Content-Type": "text/plain" });
-            response.write("Not found.");
-            response.end();
-        }
-        else {
-            response.writeHead(200, { 'Content-Type': 'application/json' });
-            response.write(JSON.stringify(deleteProfile));
-            response.end();
-        }
+
+
+app.post('/profile/create', async (req, res) => {
+    const createProfile = await crud.createProfile(req.query.username, req.query.password);
+    if (createProfile === undefined) {
+        res.set("Content-Type", "text/plain").status(500).send("Issue with creating profile.");
     }
     else {
-        response.writeHead(404, { "Content-Type": "text/plain" });
-        response.write("Not found.");
-        response.end();
+        res.status(200).json(createProfile);
     }
-}
-
-http.createServer(basicServer).listen(3000, () => {
-    console.log('Server started on port 3000');
-
 });
+
+app.get('/profile/read', async (req, res) => {
+    const readProfile = await crud.readProfile(req.query.username);
+    if (readProfile === undefined) {
+        res.set("Content-Type", "text/plain").status(500).send("Issue with creating profile.");
+    }
+    else if (readProfile === null) {
+        res.set("Content-Type", "text/plain").status(404).send("Not found.");
+    }
+    else {
+        res.status(200).json(readProfile); 
+    }
+});
+
+app.put('/profile/update', async (req, res) => {
+    const updateProfile = await crud.updateProfile(req.query.username, req.query.password);
+    if (updateProfile === undefined) {
+        res.set("Content-Type", "text/plain").status(500).send("Issue with creating profile.");
+    }
+    else if (updateProfile === null) {
+        res.set("Content-Type", "text/plain").status(404).send("Not found.");
+    }
+    else {
+        res.status(200).json(updateProfile); 
+    }
+});
+
+app.delete('/profile/delete', async (req, res) => {
+    const deleteProfile = await crud.deleteProfile(req.query.username);
+    if (deleteProfile === undefined) {
+        res.set("Content-Type", "text/plain").status(500).send("Issue with creating profile.");
+    }
+    else if (deleteProfile === null) {
+        res.set("Content-Type", "text/plain").status(404).send("Not found.");
+    }
+    else {
+        res.status(200).json(deleteProfile); 
+    }
+})
+
+app.listen(3000, () => {
+    console.log(`App listening at port 3000.`);
+})

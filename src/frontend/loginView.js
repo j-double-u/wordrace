@@ -54,14 +54,15 @@ export class LoginView {
                     alert("New profile not created. Try again.");
                 }
                 else {
+                    const profile = await (await crud.readProfile(username.value)).json();
                     this.#events.publish('navigateTo', 'homeView');
                     // give the username to the homeView 
-                    this.#events.publish('displayPersonal', createProfile["username"])
+                    this.#events.publish('displayPersonal', profile["_id"]);
 
                 }
             }
             else if (readProfile.status === 200) {
-                const profile = await readProfile.json();
+                const profile = await (await crud.readProfile(username.value)).json();
                 // if username not new and password incorrect alert
                 if (password.value !== profile['password']) {
                     alert("Incorrect password. Try again.");
@@ -70,7 +71,7 @@ export class LoginView {
                 else {
                     this.#events.publish('navigateTo', 'homeView');
                     // give the username to the homeView
-                    this.#events.publish('displayPersonal', profile["username"]);
+                    this.#events.publish('displayPersonal', profile["_id"]);
                 }
             }
             else {
@@ -118,6 +119,6 @@ export class LoginView {
 
         loginViewElm.appendChild(loginBlockElm);
 
-        return loginViewElm
+        return loginViewElm;
     }
 }
