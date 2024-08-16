@@ -77,8 +77,6 @@ export class LoginView {
             else {
                 alert("Failed to read inputs. Try again.");
             }
-            username.value = "";
-            password.value = "";
         });
         loginButtonElm.appendChild(loginButton);
 
@@ -94,8 +92,6 @@ export class LoginView {
             else if (updateProfile.status === 500) {
                 alert("Failed to update. Try again.");
             }
-            username.value = "";
-            password.value = "";
         });
         loginButtonElm.appendChild(resetButton);
 
@@ -110,8 +106,6 @@ export class LoginView {
             else if (deleteProfile.status === 500) {
                 alert("Failed to delete. Try again.");
             }
-            username.value = "";
-            password.value = "";
         });
         loginButtonElm.appendChild(deleteButton);
 
