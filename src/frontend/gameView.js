@@ -50,23 +50,27 @@ class GameInfo {
 
 class Timer {
     #events = null;
+    #timerElm = null;
 
 
     constructor() {
         this.#events = Events.events();
+        this.#timerElm = null;
     }
 
     render() {
-        const timerElm = document.createElement('p');
-        timerElm.id = 'timer';
+        this.#timerElm = document.createElement('p');
+        this.#timerElm.id = 'timer';
         this.#events.subscribe('playAgain', () => {
             this.refresh();
         });
+        
+
 
         let curr = 60;
 
         const updateTimer = setInterval(() => {
-            timerElm.innerText = curr;
+            this.#timerElm.innerText = curr;
             curr--;
             if (curr === 0) {
                 clearInterval(updateTimer);
@@ -74,18 +78,22 @@ class Timer {
                 this.#events.publish('timeout', 0);
             }
             else if (curr < 10) {
-                timerElm.classList.add('low-time');
+                this.#timerElm.classList.add('low-time');
             }
         }, 1000);
 
-        return timerElm;
+        this.#events.subscribe('game-over', (score) => {
+            clearInterval(updateTimer);
+        });
+
+        return this.#timerElm;
     }
 
     refresh() {
         let curr = 60;
 
         const updateTimer = setInterval(() => {
-            timerElm.innerText = curr;
+            this.#timerElm.innerText = curr;
             curr--;
             if (curr === 0) {
                 clearInterval(updateTimer);
@@ -93,9 +101,13 @@ class Timer {
                 this.#events.publish('timeout', 0);
             }
             else if (curr < 10) {
-                timerElm.classList.add('low-time');
+                this.#timerElm.classList.add('low-time');
             }
         }, 1000);
+
+        this.#events.subscribe('game-over', (score) => {
+            clearInterval(updateTimer);
+        });
     }
 
 }

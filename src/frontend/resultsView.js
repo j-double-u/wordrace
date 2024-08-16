@@ -65,7 +65,6 @@ class ResultsTable {
         this.#events.subscribe('game-over', numCorrect => {
             // sets the new score before it renders?
             yourScore.innerText = numCorrect;
-            window.localStorage.setItem('score', numCorrect);
         });
 
         yourScore.innerText = window.localStorage.getItem('score');
