@@ -1,11 +1,22 @@
 import { Events } from './events.js';
 
 export class ResultsView {
-    constructor() {}
+    #events = null;
+
+    constructor() {
+        this.#events = Events.events();
+    }
 
     render() {
         const resultsViewElm = document.createElement('div');
         resultsViewElm.id = 'results-view';
+
+        const goBackElm = document.createElement('button');
+        goBackElm.id = 'goBack';
+        goBackElm.innerText = 'Go Back';
+        goBackElm.addEventListener('click', () => {
+            this.#events.publish('navigateTo', 'homeView'); 
+        });
 
         const titleElm = document.createElement('h1');
         titleElm.innerText = 'Results View';
@@ -17,6 +28,7 @@ export class ResultsView {
 
         resultsViewElm.appendChild(titleElm);
         resultsViewElm.appendChild(resultsContainerElm);
+        resultsViewElm.appendChild(goBackElm);
 
         const resultsTable = new ResultsTable();
         resultsContainerElm.appendChild(resultsTable.render());
@@ -51,6 +63,7 @@ class ResultsTable {
         resultsTable.appendChild(yourRow);
         
         this.#events.subscribe('game-over', numCorrect => {
+            // sets the new score before it renders?
             yourScore.innerText = numCorrect;
             window.localStorage.setItem('score', numCorrect);
         });

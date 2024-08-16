@@ -59,6 +59,10 @@ class Timer {
     render() {
         const timerElm = document.createElement('p');
         timerElm.id = 'timer';
+        this.#events.subscribe('playAgain', () => {
+            this.refresh();
+        });
+
         let curr = 60;
 
         const updateTimer = setInterval(() => {
@@ -77,6 +81,23 @@ class Timer {
         return timerElm;
     }
 
+    refresh() {
+        let curr = 60;
+
+        const updateTimer = setInterval(() => {
+            timerElm.innerText = curr;
+            curr--;
+            if (curr === 0) {
+                clearInterval(updateTimer);
+                // no arg here, is this a problem?
+                this.#events.publish('timeout', 0);
+            }
+            else if (curr < 10) {
+                timerElm.classList.add('low-time');
+            }
+        }, 1000);
+    }
+
 }
 
 class Word {
@@ -87,45 +108,55 @@ class Word {
     
     constructor() {
         this.#events = Events.events();
+        this.#numProblems = 0;
+        this.#numCorrect = 0;
+        this.#wordElm = null;
     }
 
     render() {
-
         this.#numProblems++;
 
-        if (this.#numProblems === 1) {
-            this.#wordElm = document.createElement('p');
-            this.#wordElm.id = 'word';
-            // needs to change when person clicks on def (need to use this.render()???)
-            this.#events.subscribe('timeout', num => {
-                //switch ordering?
-                this.#events.publish('game-over', this.#numCorrect);
-                this.#events.publish('navigateTo', 'resultsView');
-            })
-            this.#events.subscribe('def-clicked', answeredNum => {
-                if (keys[answeredNum] === this.#wordElm.innerText) {
-                    this.#numCorrect++;
-                }  
-                this.render();
-            });
-        }
-
-        if (this.#numProblems > 10) {
-            //publish when done with ten problems
+        this.#wordElm = document.createElement('p');
+        this.#wordElm.id = 'word';
+        // needs to change when person clicks on def (need to use this.render()???)
+        this.#events.subscribe('timeout', num => {
             //switch ordering?
             this.#events.publish('game-over', this.#numCorrect);
             this.#events.publish('navigateTo', 'resultsView');
+        });
+        this.#events.subscribe('def-clicked', answeredNum => {
+            if (keys[answeredNum] === this.#wordElm.innerText) {
+                this.#numCorrect++;
+            }  
+            this.refresh();
+        });
+        this.#events.subscribe('playAgain', () => {
+            this.refresh();
+        });
+        
+        const wordNum = Math.floor(Math.random() * keys.length);
+        this.#wordElm.innerText = keys[wordNum];
+
+         // Give the definition list the word
+        this.#events.publish('word-generated', wordNum);
+        return this.#wordElm;
+    }
+
+    refresh() {
+        this.#numProblems++;
+        if (this.#numProblems > 10) {
+            this.#events.publish('game-over', this.#numCorrect);
+            this.#events.publish('navigateTo', 'resultsView');
+            this.#numCorrect = 0;
+            this.#numProblems = 0;
         }
         else {
             const wordNum = Math.floor(Math.random() * keys.length);
             this.#wordElm.innerText = keys[wordNum];
 
-            // Give the definition list the word
             this.#events.publish('word-generated', wordNum);
         }
-        return this.#wordElm;
     }
-
 }
 
 class DefinitionList {

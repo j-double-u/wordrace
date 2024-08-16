@@ -28,18 +28,6 @@ export class App {
             this.#navigateTo('loginView');
         })
 
-        const goBackElm = document.createElement('button');
-        goBackElm.id = 'goBack';
-        goBackElm.innerText = 'Go Back';
-        rootElm.appendChild(goBackElm);
-        goBackElm.addEventListener('click', () => {
-            // clear local storage
-            while (rootElm.firstElementChild) {
-                rootElm.firstElementChild.remove();
-            }
-            this.render(root);  
-        });
-
         this.#mainViewElm = document.createElement('div');
         this.#mainViewElm.id = 'main-view';
 
@@ -47,6 +35,9 @@ export class App {
 
         const homeView = new HomeView();
         this.#homeViewElm = homeView.render();
+
+        const gameView = new GameView();
+        this.#gameViewElm = gameView.render();
 
         const resultsView = new ResultsView();
         this.#resultsViewElm = resultsView.render();
@@ -65,8 +56,6 @@ export class App {
             window.location.hash = 'homeView';
         }
         else if (view === 'gameView') {
-            const gameView = new GameView();
-            this.#gameViewElm = gameView.render();
             this.#mainViewElm.appendChild(this.#gameViewElm);
             window.location.hash = 'gameView';
         }

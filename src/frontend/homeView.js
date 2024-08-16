@@ -41,8 +41,10 @@ export class HomeView {
 
 class PlayButton {
     #events = null;
+    #clicked = 0;
     constructor() {
         this.#events = Events.events();
+        this.#clicked = 0;
     }
 
     render() {
@@ -52,6 +54,11 @@ class PlayButton {
 
         playButtonElm.addEventListener('click', () => {
             this.#events.publish('navigateTo', 'gameView');
+            if (this.#clicked >= 1) {
+                this.#events.publish('playAgain');
+            }
+            this.#clicked++;
+
         });
 
         return playButtonElm;
