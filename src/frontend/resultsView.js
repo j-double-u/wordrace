@@ -1,10 +1,14 @@
 import { Events } from './events.js';
+import * as crud from './crud.js';
 
 export class ResultsView {
     #events = null;
+    #username = "";
+
 
     constructor() {
         this.#events = Events.events();
+        this.#username = "";
     }
 
     render() {
@@ -14,9 +18,21 @@ export class ResultsView {
         const goBackElm = document.createElement('button');
         goBackElm.id = 'goBack';
         goBackElm.innerText = 'Go Back';
-        goBackElm.addEventListener('click', () => {
-            this.#events.publish('navigateTo', 'homeView'); 
+        goBackElm.addEventListener('click', async () => {
+            const readProfile = await crud.readProfile(this.#username);
+            if (!readProfile.ok) {
+                alert("Could not carry over stats.");
+            }
+            else {
+                const profile = await readProfile.json();
+                this.#events.publish('navigateTo', 'homeView'); 
+                this.#events.publish('refreshWelcome', profile);
+            }
         });
+
+        this.#events.subscribe('displayPersonal', profile => {
+            this.#username = profile;
+        })
 
         const titleElm = document.createElement('h1');
         titleElm.innerText = 'Results View';
@@ -39,15 +55,14 @@ export class ResultsView {
 
 class ResultsTable {
     #events = null;
+    #username = "";
+
     constructor() {
         this.#events = Events.events();
+        this.#username = "";
     }
 
     render() {
-        if (window.localStorage.getItem('score') === null) {
-            window.localStorage.setItem('score', 0);
-        }
-
         const resultsTable = document.createElement('table');
         resultsTable.id = 'results-table';
 
@@ -61,13 +76,28 @@ class ResultsTable {
         const yourScore = document.createElement('td');
         yourRow.appendChild(yourScore);
         resultsTable.appendChild(yourRow);
-        
-        this.#events.subscribe('game-over', numCorrect => {
-            // sets the new score before it renders?
-            yourScore.innerText = numCorrect;
-        });
 
-        yourScore.innerText = window.localStorage.getItem('score');
+        this.#events.subscribe('displayPersonal', profile => {
+            this.#username = profile;
+        })
+        
+        this.#events.subscribe('game-over', async (numCorrect) => {
+            // sets the new score before it renders?
+            const readProfile = await crud.readProfile(this.#username);
+            if (!readProfile.ok) {
+                alert("Could not update profile.");
+            }
+            else {
+                const profile = await readProfile.json();
+                if (numCorrect > profile['highScore']) {
+                    const updatehighScore = await crud.updatehighScore(this.#username, numCorrect);
+                    if (!updatehighScore.ok) {
+                        alert("Could not update profile.");
+                    }
+                }
+            }
+            yourScore.innerText = numCorrect;  
+        });
 
         return resultsTable;
 

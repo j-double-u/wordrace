@@ -61,29 +61,8 @@ class Timer {
     render() {
         this.#timerElm = document.createElement('p');
         this.#timerElm.id = 'timer';
-        this.#events.subscribe('playAgain', () => {
+        this.#events.subscribe('startTimer', () => {
             this.refresh();
-        });
-        
-
-
-        let curr = 60;
-
-        const updateTimer = setInterval(() => {
-            this.#timerElm.innerText = curr;
-            curr--;
-            if (curr === 0) {
-                clearInterval(updateTimer);
-                // no arg here, is this a problem?
-                this.#events.publish('timeout', 0);
-            }
-            else if (curr < 10) {
-                this.#timerElm.classList.add('low-time');
-            }
-        }, 1000);
-
-        this.#events.subscribe('game-over', (score) => {
-            clearInterval(updateTimer);
         });
 
         return this.#timerElm;

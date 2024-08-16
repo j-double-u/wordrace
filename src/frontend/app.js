@@ -20,14 +20,6 @@ export class App {
         const rootElm = document.getElementById(root);
         rootElm.innerHTML = '';
 
-        const loginElm = document.createElement('button');
-        loginElm.id = 'login';
-        loginElm.innerText = 'Login';
-        rootElm.appendChild(loginElm);
-        loginElm.addEventListener('click', () => {
-            this.#navigateTo('loginView');
-        })
-
         this.#mainViewElm = document.createElement('div');
         this.#mainViewElm.id = 'main-view';
 
@@ -45,7 +37,7 @@ export class App {
         const loginView = new LoginView();
         this.#loginViewElm = loginView.render();
 
-        this.#navigateTo('homeView');
+        this.#navigateTo('loginView');
         this.#events.subscribe('navigateTo', view => this.#navigateTo(view));
     }
 

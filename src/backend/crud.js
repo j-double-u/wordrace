@@ -105,6 +105,21 @@ export async function updateProfile(username, password) {
     }
 }
 
+export async function updatehighScore(username, highScore) {
+    try {
+        const readProfile = await database.get(username);
+        readProfile['highScore'] = highScore;
+        const updateProfile = await database.put(readProfile);
+        return updateProfile;
+    }
+    catch (err) {
+        if (err.name === 'not_found') {
+            return null;
+        }
+        return undefined;
+    }
+}
+
 /**
  * @endpoints /profile/delete
  * @method DELETE

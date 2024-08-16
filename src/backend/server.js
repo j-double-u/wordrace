@@ -45,6 +45,19 @@ app.put('/profile/update', async (req, res) => {
     }
 });
 
+app.put('/profile/updatehighScore', async (req, res) => {
+    const updatehighScore = await crud.updatehighScore(req.query.username, req.query.highScore);
+    if (updatehighScore === undefined) {
+        res.set("Content-Type", "text/plain").status(500).send("Issue with creating profile.");
+    }
+    else if (updatehighScore === null) {
+        res.set("Content-Type", "text/plain").status(404).send("Not found.");
+    }
+    else {
+        res.status(200).json(updatehighScore); 
+    }
+});
+
 app.delete('/profile/delete', async (req, res) => {
     const deleteProfile = await crud.deleteProfile(req.query.username);
     if (deleteProfile === undefined) {

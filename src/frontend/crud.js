@@ -19,6 +19,13 @@ export async function updateProfile(username, password) {
       return response;
 }
 
+export async function updatehighScore(username, highScore) {
+  const response = await fetch(`http://localhost:3000/profile/updatehighScore?username=${username}&highScore=${highScore}`, {
+      method: 'PUT',
+    });
+    return response;
+}
+
 export async function deleteProfile(username) {
     const response = await fetch(`http://localhost:3000/profile/delete?username=${username}`, {
         method: 'DELETE',
