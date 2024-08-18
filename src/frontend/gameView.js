@@ -173,8 +173,14 @@ class DefinitionList {
             
             const correctNum = wordNum;
             this.#tasks.push(correctNum);
-            for (let i = 0; i < 3; i++) {
-                this.#tasks.push(Math.floor(Math.random() * dictionary.length))
+            let i = 0;
+            while (i < 3) {
+                const candidateWordIndex = Math.floor(Math.random() * dictionary.length)
+                const candidateWord = dictionary[candidateWordIndex];
+                if (candidateWord["type"] === dictionary[wordNum]["type"]) {
+                    this.#tasks.push(candidateWordIndex);
+                    i++;
+                }
             }
             this.#tasks.sort();
             const definitionElements = this.#tasks.map(wordNum => this.#makeDefinitionElement(wordNum));
