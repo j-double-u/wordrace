@@ -1,4 +1,4 @@
-import { dictionary, keys } from "./dictionary.js";
+import { dictionary } from "./freevocabulary_words.js"
 import { Events } from "./events.js";
 
 export class GameView {
@@ -116,7 +116,7 @@ class Word {
             this.#events.publish('navigateTo', 'resultsView');
         });
         this.#events.subscribe('def-clicked', answeredNum => {
-            if (keys[answeredNum] === this.#wordElm.innerText) {
+            if (dictionary[answeredNum]["word"] === this.#wordElm.innerText) {
                 this.#numCorrect++;
             }  
             this.refresh();
@@ -125,8 +125,8 @@ class Word {
             this.refresh();
         });
         
-        const wordNum = Math.floor(Math.random() * keys.length);
-        this.#wordElm.innerText = keys[wordNum];
+        const wordNum = Math.floor(Math.random() * dictionary.length);
+        this.#wordElm.innerText = dictionary[wordNum]["word"];
 
          // Give the definition list the word
         this.#events.publish('word-generated', wordNum);
@@ -142,8 +142,8 @@ class Word {
             this.#numProblems = 0;
         }
         else {
-            const wordNum = Math.floor(Math.random() * keys.length);
-            this.#wordElm.innerText = keys[wordNum];
+            const wordNum = Math.floor(Math.random() * dictionary.length);
+            this.#wordElm.innerText = dictionary[wordNum]["word"];
 
             this.#events.publish('word-generated', wordNum);
         }
@@ -174,7 +174,7 @@ class DefinitionList {
             const correctNum = wordNum;
             this.#tasks.push(correctNum);
             for (let i = 0; i < 3; i++) {
-                this.#tasks.push(Math.floor(Math.random() * keys.length))
+                this.#tasks.push(Math.floor(Math.random() * dictionary.length))
             }
             this.#tasks.sort();
             const definitionElements = this.#tasks.map(wordNum => this.#makeDefinitionElement(wordNum));
@@ -189,7 +189,7 @@ class DefinitionList {
     #makeDefinitionElement(wordNum) {
         const definitionElm = document.createElement('button');
         definitionElm.classList.add('definition');
-        definitionElm.innerText = dictionary[keys[wordNum]];
+        definitionElm.innerText = dictionary[wordNum]["definition"];
 
 
         definitionElm.addEventListener('click', () => {
