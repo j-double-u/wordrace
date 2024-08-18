@@ -86,6 +86,7 @@ class Timer {
 
         this.#events.subscribe('game-over', (score) => {
             clearInterval(updateTimer);
+            this.#timerElm.classList.remove('low-time');
         });
     }
 
